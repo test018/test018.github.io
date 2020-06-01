@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>cadTest</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel = "stylesheet" type = "text/css" href = "cadTestStyle.css" />
+  </head>
+  <body>
+    <!-- info screen -->
+    <div id="data" style="display:none; position:absolute; z-index:1; background:;">
+      <h2 id="xymouse"
+      style="bottom: 0;"
+      >xymouse</h2>
+
+      <h2 id="xym_actual"
+      style="bottom: 20px;"
+      >xym_actual 0 0</h2>
+
+
+      <h2 id="scale"
+      style="bottom: 40px;"
+      >scale</h2>
+
+      <h2 id="shift"
+      style="bottom: 60px;"
+      >shift 0 0</h2>
+
+      <h3 id="saveData"
+      style="display:none ; position:fixed; top:100px; left:0; height:100%; width:100%; font-size:12px; border:1px solid black; margin-top:20px; background:white;"
+      >nothing here</h2>
+    </div>
+
+    <!-- top tool bar selection -->
+    <div class="toolBoxSelect">
+      <button id="shapes" onclick="changeToolPalette('shapes')">Shapes</button>
+      <button id="editing" onclick="changeToolPalette('editing')">Editing</button>
+      <button id="exporting" onclick="changeToolPalette('exporting')">Exporting</button>
+      <button id="showSaveData" onclick="showSaveData()" style="float: right;">Show Save Data</button>
+      <button id="loadData" onclick="loadData()" style="float:right; background:yellow;">Load</button>
+      <button id="saveData" onclick="saveData()" style="float:right; background:yellow;">Save</button>
+    </div>
+
+    <!-- lower interchangeable tool palettes -->
+    <div id="toolBoxOutline">
+      <div id="shapesPalette" class="toolBox" style="display:;">
+        <button onclick="selectTool('circle')">Circle</button>
+        <button onclick="selectTool('rect')">Rectangle</button>
+        <button onclick="selectTool('line')">Line</button>
+      </div>
+      <div id="editingPalette" class="toolBox" style="display:;">
+        <button>testEdit</button>
+      </div>
+      <div id="exportingPalette" class="toolBox" style="display:;">
+        <button>testExport</button>
+        <button onclick="openFile()">Open</button>
+      </div>
+
+      <!-- layer selection -->
+      <div class="layerPanelOutline">
+        <select class="layerPanel" id="layerSelect"></select>
+        <button class="layerPanel" onclick="newLayer()">New Layer</button>
+        <button class="layerPanel" onclick="layerColor('stroke')" style="width:50%;">
+          Stroke
+        </button>
+        <button class="layerPanel" onclick="layerColor('fill')" style="width:50%;">
+          Fill
+        </button>
+
+        <select class="layerPanel" id="lineWeightSelect" onclick="alertDefault()" style="width:50%;">
+          <option value=".5">0.5px</option>
+          <option value="1">1.0px</option>
+          <option value="1.5">1.5px</option>
+          <option value="2">2.0px</option>
+          <option value="3">3.0px</option>
+          <option value="5">5.0px</option>
+          <option value="10">10.0px</option>
+        </select>
+
+        <select class="layerPanel" id="lineTypeSelect" onclick="alertDefault()" style="width:50%;">
+          <option value="1">Solid</option>
+          <option value="5,5">Dash-Small</option>
+          <option value="10,10">Dash-Medium</option>
+          <option value="20,20">Dash-Large</option>
+          <option value="10,5,3,5">Center-Small</option>
+          <option value="20,10,6,10">Center-Large</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- for positioning inputs over the svg -->
+    <div id="underlay" onclick="hideUnderlay()">
+      <input type="color" id="layerColorInput" style="top:116px; right:228px">
+    </div>
+
+    <!-- main drawing space -->
+    <svg id="workSpace" preserveAspectRatio="" style="position:fixed; width:100%; height:100%; top:0; left:0; margin:0; background:lightblue;">
+      <!-- drawing grid -->
+      <defs>
+        <pattern id="smallGrid" width="10" height="10" patternUnits="userSpaceOnUse">
+          <path d="M 10 0 L 0 0 0 10" fill="none" stroke="gray" stroke-width="0.25"/>
+        </pattern>
+        <pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse">
+          <rect width="100" height="100" fill="url(#smallGrid)"/>
+          <path d="M 100 0 L 0 0 0 100" fill="none" stroke="gray" stroke-width="1"/>
+        </pattern>
+      </defs>
+      <rect width="100000" height="100000" fill="url(#grid)" stroke="gray" style="transform:translate(-50000px, -50000px);"/>
+
+      <g id="layers" class="layers" onclick="select()">
+        <g id="_temp" data-layer="-temp"></g>
+        <g id="_selected" data-layer="-selected"></g>
+        <g id="_default" data-layer="default"></g>
+      </g>
+
+    </svg>
+
+
+    <script src="cadTestScript.js"></script>
+  </body>
+</html>
