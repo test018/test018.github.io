@@ -346,7 +346,6 @@ function line() {
 function select() {
   var x = event.srcElement;
   var strokeWidth = window.getComputedStyle(x)['stroke-width'];
-  x.style.
 
 }
 
